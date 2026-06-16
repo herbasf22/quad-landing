@@ -4,19 +4,19 @@
 @theme {
   --color-campus-bg:           #FAF8F3;
   --color-campus-surface:      #FFFFFF;
-  --color-campus-border:       #ECE7DC;
-  --color-campus-primary:      #1E5C45;
-  --color-campus-primary-dark: #163D2D;
-  --color-campus-accent:       #E8A33D;
-  --color-campus-accent-dark:  #D4922E;
-  --color-campus-text:         #15241C;
-  --color-campus-muted:        #5B6B62;
-  --color-campus-tint:         #EAF1EC;
+  --color-campus-border:       #E6E4EC;
+  --color-campus-primary:      #E5502E;
+  --color-campus-primary-dark: #C43D1C;
+  --color-campus-accent:       #E5502E;
+  --color-campus-accent-dark:  #C43D1C;
+  --color-campus-text:         #1B1B2B;
+  --color-campus-muted:        #6E7280;
+  --color-campus-tint:         #FDECE7;
 }
 
 :root {
   --background: #FAF8F3;
-  --foreground: #15241C;
+  --foreground: #1B1B2B;
 }
 
 @theme inline {
@@ -34,14 +34,14 @@ body {
   font-family: var(--font-inter), "Inter", Arial, Helvetica, sans-serif;
 }
 
-/* ── Shimmer — amber → emerald ───────────────────────────────────────────── */
+/* ── Shimmer — coral gradient ────────────────────────────────────────────── */
 @keyframes shimmer {
   0%   { background-position: -200% center; }
   100% { background-position:  200% center; }
 }
 .shimmer-text {
   background: linear-gradient(90deg,
-    #1E5C45 0%, #4a9d76 35%, #E8A33D 50%, #4a9d76 65%, #1E5C45 100%);
+    #C43D1C 0%, #E5502E 35%, #FF8C6B 50%, #E5502E 65%, #C43D1C 100%);
   background-size: 200% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -68,5 +68,5 @@ body {
 
 /* ── Card hover glow ─────────────────────────────────────────────────────── */
 .card-glow:hover {
-  box-shadow: 0 8px 32px rgba(30, 92, 69, 0.10), 0 0 0 1px rgba(30, 92, 69, 0.12);
+  box-shadow: 0 8px 32px rgba(229, 80, 46, 0.10), 0 0 0 1px rgba(229, 80, 46, 0.12);
 }

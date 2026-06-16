@@ -261,7 +261,7 @@ function PhoneMockup() {
       {/* Glow */}
       <div className="absolute inset-0 bg-campus-primary/25 blur-3xl rounded-full scale-75 translate-y-8" />
 
-      <div className="relative rounded-[2.5rem] bg-[#0e1f18] border border-white/10 shadow-2xl overflow-hidden">
+      <div className="relative rounded-[2.5rem] bg-[#1f0d08] border border-white/10 shadow-2xl overflow-hidden">
         {/* Notch */}
         <div className="flex justify-center pt-4 pb-1">
           <div className="w-24 h-6 rounded-full bg-black" />
@@ -387,7 +387,7 @@ function Hero() {
       {/* Subtle dot grid */}
       <div className="absolute inset-0 pointer-events-none"
         style={{
-          backgroundImage: "radial-gradient(circle, #1E5C4514 1px, transparent 1px)",
+          backgroundImage: "radial-gradient(circle, #E5502E14 1px, transparent 1px)",
           backgroundSize: "36px 36px",
         }}
       />
@@ -674,7 +674,7 @@ function WaitlistCTA() {
   return (
     <section id="waitlist" ref={ref}
       className="py-28 px-6 relative overflow-hidden"
-      style={{ background: "linear-gradient(135deg, #1E5C45 0%, #163D2D 100%)" }}
+      style={{ background: "linear-gradient(135deg, #E5502E 0%, #C43D1C 100%)" }}
     >
       {/* Blobs */}
       <div className="absolute inset-0 pointer-events-none">
