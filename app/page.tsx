@@ -670,6 +670,95 @@ function Features() {
   );
 }
 
+// ── FAQ ───────────────────────────────────────────────────────────────────────
+
+const faqs = [
+  {
+    q: "What file formats does Quad support?",
+    a: "PDFs, photos, and screenshots — basically anything a professor might hand you. Quad's AI handles scanned pages, digital PDFs, and even messy layouts.",
+  },
+  {
+    q: "Does it work with any syllabus format?",
+    a: "Yes. Whether your professor uses a table, a bullet list, or walls of text, Quad reads and extracts the dates. No template required.",
+  },
+  {
+    q: "Which calendars does it sync with?",
+    a: "Google Calendar and Apple Calendar. Every deadline lands in the right place with the right class name automatically.",
+  },
+  {
+    q: "Is Quad free?",
+    a: "Free during beta. We'll always have a free tier — details to come at launch.",
+  },
+  {
+    q: "When does it launch, and on which platforms?",
+    a: "We're targeting iOS and Android. Sign up above and you'll be the first to know.",
+  },
+];
+
+function FAQ() {
+  const { ref, inView } = useScrollReveal();
+  const [open, setOpen] = useState<number | null>(null);
+
+  return (
+    <section ref={ref} className="py-28 px-6 bg-campus-surface">
+      <div className="max-w-2xl mx-auto">
+        <motion.div variants={stagger} initial="hidden" animate={inView ? "show" : "hidden"}
+          className="text-center mb-14"
+        >
+          <motion.p variants={fadeUp}
+            className="text-campus-accent font-semibold text-sm uppercase tracking-widest mb-4"
+          >
+            FAQ
+          </motion.p>
+          <motion.h2 variants={fadeUp}
+            className="text-4xl sm:text-5xl font-extrabold text-campus-primary"
+          >
+            Common questions
+          </motion.h2>
+        </motion.div>
+
+        <motion.div variants={stagger} initial="hidden" animate={inView ? "show" : "hidden"}
+          className="flex flex-col gap-3"
+        >
+          {faqs.map((faq, i) => (
+            <motion.div key={i} variants={fadeUp}
+              className="rounded-2xl border border-campus-border bg-campus-bg overflow-hidden"
+            >
+              <button
+                onClick={() => setOpen(open === i ? null : i)}
+                className="w-full flex items-center justify-between px-6 py-5 text-left cursor-pointer"
+              >
+                <span className="font-semibold text-campus-text text-sm sm:text-base pr-4">{faq.q}</span>
+                <motion.span
+                  animate={{ rotate: open === i ? 45 : 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="text-campus-accent text-xl shrink-0 font-light"
+                >
+                  +
+                </motion.span>
+              </button>
+              <AnimatePresence initial={false}>
+                {open === i && (
+                  <motion.div
+                    key="answer"
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.25, ease: EASE }}
+                    className="overflow-hidden"
+                  >
+                    <p className="px-6 pb-5 text-campus-muted text-sm leading-relaxed">{faq.a}</p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.div>
+          ))}
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
 // ── Waitlist CTA ──────────────────────────────────────────────────────────────
 
 function WaitlistCTA() {
@@ -708,8 +797,8 @@ function WaitlistCTA() {
             <span className="text-white">organized.</span>
           </motion.h2>
           <motion.p variants={fadeUp} className="text-white/80 text-xl mb-12 leading-relaxed">
-            Join hundreds of students who are done entering deadlines by hand.
-            Be the first to know when Quad launches.
+            Be among the first students to try Quad.
+            Sign up and we&apos;ll reach out when we launch.
           </motion.p>
 
           <motion.div variants={fadeUp} className="flex justify-center mb-8">
@@ -744,8 +833,9 @@ function Footer() {
         <span className="font-extrabold text-campus-accent text-lg">Quad</span>
         <p>© {new Date().getFullYear()} Quad. Built for students, by students.</p>
         <div className="flex gap-6">
-          <a href="mailto:hello@quadapp.co" className="hover:text-white transition">Contact</a>
-          <a href="#" className="hover:text-white transition">Privacy</a>
+          <a href="mailto:herbasf22@gmail.com" className="hover:text-white transition">Contact</a>
+          <a href="/privacy" className="hover:text-white transition">Privacy</a>
+          <a href="/terms" className="hover:text-white transition">Terms</a>
         </div>
       </div>
     </footer>
@@ -764,6 +854,7 @@ export default function Home() {
         <Problem />
         <HowItWorks />
         <Features />
+        <FAQ />
         <WaitlistCTA />
       </main>
       <Footer />

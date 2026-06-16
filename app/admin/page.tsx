@@ -2,7 +2,22 @@ import { getAllEmails } from "@/lib/db";
 
 export const dynamic = "force-dynamic";
 
-export default async function AdminPage() {
+export default async function AdminPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ token?: string }>;
+}) {
+  const { token } = await searchParams;
+  const secret = process.env.ADMIN_SECRET;
+
+  if (!secret || token !== secret) {
+    return (
+      <div className="min-h-screen flex items-center justify-center" style={{ background: "#0e1f18" }}>
+        <p className="text-campus-accent font-semibold">Unauthorized</p>
+      </div>
+    );
+  }
+
   const emails = await getAllEmails();
   const count  = emails.length;
 
