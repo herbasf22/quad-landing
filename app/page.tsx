@@ -203,18 +203,22 @@ function WaitlistForm({ onDark = false }: { onDark?: boolean }) {
               disabled={status === "loading"}
               className={`flex-1 h-13 rounded-2xl px-4 text-base focus:outline-none transition disabled:opacity-50 ${
                 onDark
-                  ? "bg-white/10 border border-white/20 text-white placeholder-white/40 focus:ring-2 focus:ring-campus-accent"
+                  ? "bg-white/15 border border-white/30 text-white placeholder-white/60 focus:ring-2 focus:ring-white/50"
                   : "border border-campus-border bg-campus-surface text-campus-text placeholder-campus-muted focus:ring-2 focus:ring-campus-primary"
               }`}
             />
             <MagneticButton type="submit"
-              className="h-13 px-7 rounded-2xl bg-campus-accent hover:bg-campus-accent-dark font-semibold text-campus-text transition-colors flex items-center justify-center gap-2 cursor-pointer text-base shrink-0"
+              className={`h-13 px-7 rounded-2xl font-semibold transition-colors flex items-center justify-center gap-2 cursor-pointer text-base shrink-0 ${
+                onDark
+                  ? "bg-white hover:bg-white/90 text-campus-primary"
+                  : "bg-campus-accent hover:bg-campus-accent-dark text-campus-text"
+              }`}
             >
               {status === "loading" ? (
                 <motion.span
                   animate={{ rotate: 360 }}
                   transition={{ repeat: Infinity, duration: 0.8, ease: "linear" }}
-                  className="w-4 h-4 border-2 border-campus-text/30 border-t-campus-text rounded-full inline-block"
+                  className={`w-4 h-4 border-2 rounded-full inline-block ${onDark ? "border-campus-primary/30 border-t-campus-primary" : "border-campus-text/30 border-t-campus-text"}`}
                 />
               ) : (
                 <>
@@ -693,7 +697,7 @@ function WaitlistCTA() {
       <div className="relative max-w-3xl mx-auto text-center">
         <motion.div variants={stagger} initial="hidden" animate={inView ? "show" : "hidden"}>
           <motion.p variants={fadeUp}
-            className="text-campus-accent font-semibold text-sm uppercase tracking-widest mb-6"
+            className="text-white/70 font-semibold text-sm uppercase tracking-widest mb-6"
           >
             Early access
           </motion.p>
@@ -701,9 +705,9 @@ function WaitlistCTA() {
             className="text-5xl sm:text-6xl font-extrabold text-white mb-6 leading-tight"
           >
             Your semester,{" "}
-            <span className="text-campus-accent">organized.</span>
+            <span className="text-white">organized.</span>
           </motion.h2>
-          <motion.p variants={fadeUp} className="text-white/60 text-xl mb-12 leading-relaxed">
+          <motion.p variants={fadeUp} className="text-white/80 text-xl mb-12 leading-relaxed">
             Join hundreds of students who are done entering deadlines by hand.
             Be the first to know when Quad launches.
           </motion.p>
@@ -718,9 +722,9 @@ function WaitlistCTA() {
           >
             {["Free during beta", "iOS & Android", "Works with any syllabus"].map(item => (
               <motion.li key={item} variants={fadeIn}
-                className="flex items-center gap-2 text-sm text-white/50"
+                className="flex items-center gap-2 text-sm text-white/80"
               >
-                <span className="text-campus-accent"><CheckIcon /></span>
+                <span className="text-white/80"><CheckIcon /></span>
                 {item}
               </motion.li>
             ))}
