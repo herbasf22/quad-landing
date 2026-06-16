@@ -1,10 +1,10 @@
-import { getAllEmails, getCount } from "@/lib/db";
+import { getAllEmails } from "@/lib/db";
 
 export const dynamic = "force-dynamic";
 
-export default function AdminPage() {
-  const emails = getAllEmails();
-  const count  = getCount();
+export default async function AdminPage() {
+  const emails = await getAllEmails();
+  const count  = emails.length;
 
   return (
     <div className="min-h-screen px-6 py-12" style={{ background: "#0e1f18" }}>
@@ -38,7 +38,7 @@ export default function AdminPage() {
                     <td className="px-5 py-3.5 text-white/30">{i + 1}</td>
                     <td className="px-5 py-3.5 text-white font-medium">{row.email}</td>
                     <td className="px-5 py-3.5 text-white/40 text-right tabular-nums">
-                      {new Date(row.created_at + "Z").toLocaleString("en-US", {
+                      {new Date(row.created_at).toLocaleString("en-US", {
                         month: "short", day: "numeric",
                         hour: "numeric", minute: "2-digit",
                       })}
@@ -51,7 +51,7 @@ export default function AdminPage() {
         )}
 
         <p className="mt-6 text-white/20 text-xs text-center">
-          Stored in <code className="font-mono">waitlist.db</code> · refresh to update
+          Stored in Supabase · refresh to update
         </p>
       </div>
     </div>

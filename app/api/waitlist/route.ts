@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { insertEmail, getCount } from "@/lib/db";
+import { insertEmail } from "@/lib/db";
 
 export async function POST(req: NextRequest) {
   try {
@@ -14,10 +14,9 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Invalid email address." }, { status: 400 });
     }
 
-    const { duplicate } = insertEmail(email);
-    const count = getCount();
+    const { duplicate } = await insertEmail(email);
 
-    return NextResponse.json({ ok: true, duplicate, count }, { status: 200 });
+    return NextResponse.json({ ok: true, duplicate }, { status: 200 });
   } catch (err) {
     console.error("Waitlist error:", err);
     return NextResponse.json({ error: "Something went wrong." }, { status: 500 });

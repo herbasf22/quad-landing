@@ -1,46 +1,35 @@
-import Database from "better-sqlite3";
-import path from "path";
+const SUPABASE_URL = process.env.SUPABASE_URL
+const SERVICE_KEY  = process.env.SUPABASE_SERVICE_ROLE_KEY
 
-const DB_PATH = path.join(process.cwd(), "waitlist.db");
-
-let _db: Database.Database | null = null;
-
-export function getDb() {
-  if (!_db) {
-    _db = new Database(DB_PATH);
-    _db.exec(`
-      CREATE TABLE IF NOT EXISTS waitlist (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        email TEXT NOT NULL UNIQUE,
-        created_at TEXT NOT NULL DEFAULT (datetime('now'))
-      )
-    `);
-  }
-  return _db;
-}
-
-export function insertEmail(email: string): { ok: boolean; duplicate: boolean } {
-  const db = getDb();
-  try {
-    db.prepare("INSERT INTO waitlist (email) VALUES (?)").run(email.toLowerCase().trim());
-    return { ok: true, duplicate: false };
-  } catch (err: unknown) {
-    if (err instanceof Error && err.message.includes("UNIQUE")) {
-      return { ok: true, duplicate: true };
-    }
-    throw err;
+function authHeaders() {
+  return {
+    apikey: SERVICE_KEY!,
+    Authorization: `Bearer ${SERVICE_KEY}`,
+    'Content-Type': 'application/json',
   }
 }
 
-export function getAllEmails(): { id: number; email: string; created_at: string }[] {
-  return getDb().prepare("SELECT * FROM waitlist ORDER BY created_at DESC").all() as {
-    id: number;
-    email: string;
-    created_at: string;
-  }[];
+export async function insertEmail(email: string): Promise<{ duplicate: boolean }> {
+  if (!SUPABASE_URL || !SERVICE_KEY) throw new Error('Supabase env not configured')
+
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/quad_waitlist`, {
+    method: 'POST',
+    headers: { ...authHeaders(), Prefer: 'return=minimal' },
+    body: JSON.stringify({ email: email.toLowerCase().trim() }),
+  })
+
+  if (res.status === 409) return { duplicate: true }
+  if (!res.ok) throw new Error(`Supabase insert failed: ${res.status}`)
+  return { duplicate: false }
 }
 
-export function getCount(): number {
-  const row = getDb().prepare("SELECT COUNT(*) as n FROM waitlist").get() as { n: number };
-  return row.n;
+export async function getAllEmails(): Promise<{ id: number; email: string; created_at: string }[]> {
+  if (!SUPABASE_URL || !SERVICE_KEY) return []
+
+  const res = await fetch(
+    `${SUPABASE_URL}/rest/v1/quad_waitlist?select=id,email,created_at&order=created_at.desc`,
+    { headers: authHeaders(), cache: 'no-store' }
+  )
+  if (!res.ok) throw new Error(`Supabase fetch failed: ${res.status}`)
+  return res.json()
 }
