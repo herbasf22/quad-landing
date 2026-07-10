@@ -23,7 +23,7 @@ export default function PrivacyPage() {
           Privacy Policy
         </h1>
         <p className="text-campus-muted text-sm mb-12">
-          Last updated: June 18, 2026
+          Last updated: July 9, 2026
         </p>
 
         <div className="flex flex-col gap-10 text-campus-muted leading-relaxed text-[15px]">
@@ -46,10 +46,13 @@ export default function PrivacyPage() {
               <div>
                 <p className="font-semibold text-campus-text mb-1">Account data</p>
                 <p>
-                  When you create an account we collect your email address and a
-                  hashed password. You may optionally provide your name and
-                  education level during onboarding — this is stored to personalize
-                  the experience.
+                  To use Quad you sign in with Sign in with Apple, Google, or an
+                  email address and password. We collect your email address and
+                  name, which may be provided directly by you or shared by Apple
+                  or Google when you choose those sign-in options. If you sign up
+                  with email, your password is stored only in hashed form. You may
+                  optionally provide your education level during onboarding to
+                  personalize the experience.
                 </p>
               </div>
               <div>
@@ -159,6 +162,57 @@ export default function PrivacyPage() {
                     className="text-campus-primary hover:underline"
                   >
                     Anthropic Privacy Policy →
+                  </a>
+                </p>
+              </div>
+              <div>
+                <p className="font-semibold text-campus-text mb-1">
+                  Sign in with Apple &amp; Google (authentication)
+                </p>
+                <p>
+                  When you choose to sign in with Apple or Google, that provider
+                  authenticates you and shares your name and email address with
+                  Quad to create your account. We only use this to identify your
+                  account — we do not post anything or access other data from
+                  these providers.
+                </p>
+              </div>
+              <div>
+                <p className="font-semibold text-campus-text mb-1">
+                  RevenueCat (subscriptions)
+                </p>
+                <p>
+                  If you purchase a Quad subscription, RevenueCat manages the
+                  purchase and your subscription status. We associate your
+                  account ID and email with your RevenueCat customer record to
+                  provide and restore access.{" "}
+                  <a
+                    href="https://www.revenuecat.com/privacy"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-campus-primary hover:underline"
+                  >
+                    RevenueCat Privacy Policy →
+                  </a>
+                </p>
+              </div>
+              <div>
+                <p className="font-semibold text-campus-text mb-1">
+                  Sentry &amp; PostHog (diagnostics &amp; analytics)
+                </p>
+                <p>
+                  We use Sentry to capture crash and error reports and PostHog to
+                  understand anonymized, aggregated usage patterns so we can
+                  improve the app. These services do not receive your academic
+                  data and are not used to track you across other apps or
+                  websites.{" "}
+                  <a
+                    href="https://sentry.io/privacy/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-campus-primary hover:underline"
+                  >
+                    Sentry Privacy Policy →
                   </a>
                 </p>
               </div>
