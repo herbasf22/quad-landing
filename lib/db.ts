@@ -33,3 +33,30 @@ export async function getAllEmails(): Promise<{ id: number; email: string; creat
   if (!res.ok) throw new Error(`Supabase fetch failed: ${res.status}`)
   return res.json()
 }
+
+// ── Creator / affiliate dashboard ───────────────────────────────────────────
+
+export type CreatorRow = {
+  name: string
+  code: string
+  email: string | null
+  commission_per_conversion: number
+  signups: number
+  converted: number
+  active_now: number
+  conversion_rate_pct: number | null
+  earned_total: number
+  paid_out: number
+  balance_owed: number
+}
+
+/// Reads the admin-only creator_dashboard view (service role required).
+export async function getCreatorDashboard(): Promise<CreatorRow[]> {
+  if (!SUPABASE_URL || !SERVICE_KEY) return []
+  const res = await fetch(
+    `${SUPABASE_URL}/rest/v1/creator_dashboard?select=*&order=earned_total.desc`,
+    { headers: authHeaders(), cache: 'no-store' }
+  )
+  if (!res.ok) throw new Error(`creator_dashboard fetch failed: ${res.status}`)
+  return res.json()
+}

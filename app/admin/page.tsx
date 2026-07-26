@@ -28,6 +28,12 @@ export default async function AdminPage({
           <div>
             <p className="text-campus-accent text-sm font-semibold uppercase tracking-widest mb-1">Quad</p>
             <h1 className="text-3xl font-extrabold text-white">Waitlist</h1>
+            <a
+              href={`/admin/creators?token=${token}`}
+              className="text-campus-accent text-sm font-semibold hover:underline"
+            >
+              → Creators &amp; Affiliates dashboard
+            </a>
           </div>
           <div className="text-right">
             <p className="text-4xl font-extrabold text-campus-accent">{count}</p>
