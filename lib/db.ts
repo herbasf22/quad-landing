@@ -36,15 +36,23 @@ export async function getAllEmails(): Promise<{ id: number; email: string; creat
 
 // ── Creator / affiliate dashboard ───────────────────────────────────────────
 
+export type PayoutModel = 'per_conversion' | 'per_video' | 'both'
+
 export type CreatorRow = {
   name: string
   code: string
   email: string | null
+  /// How this creator is paid. Gates which earnings column applies.
+  payout_model: PayoutModel
   commission_per_conversion: number
+  rate_per_video: number
   signups: number
   converted: number
   active_now: number
   conversion_rate_pct: number | null
+  videos_approved: number
+  earned_conversions: number
+  earned_videos: number
   earned_total: number
   paid_out: number
   balance_owed: number
