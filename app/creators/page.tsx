@@ -4,7 +4,7 @@ import { CreatorApplyForm } from '@/components/creator-apply-form'
 export const metadata: Metadata = {
   title: 'Become a Creator | Quad',
   description:
-    'Partner with Quad on a performance-based revenue share. Apply to join the creator program and earn every month your audience joins their study groups.',
+    'Apply to the Quad creator program. Get your own promo code, a coach, and paid for the students you bring in.',
 }
 
 const CORAL = '#E5502E'
@@ -16,8 +16,9 @@ const TINT = '#FDECE7'
 const BORDER = '#EAE4DA'
 
 const PERKS = [
-  { title: 'Recurring revenue', body: 'Earn a flat payout for every subscriber your audience brings in — every month they stay.' },
-  { title: 'Your own promo code', body: 'A vanity code that unlocks a Plus trial for your audience and tracks every signup back to you.' },
+  { title: 'Two ways to get paid', body: 'Some creators are paid per piece of content, others earn on every subscriber their code brings in. We agree your terms with you before you make anything.' },
+  { title: 'Your own promo code', body: 'A vanity code that unlocks a free Plus trial for your audience and tracks every signup back to you.' },
+  { title: 'A coach, not a brief', body: 'You keep creative control. Someone on our team reviews your videos before they go live and helps make them land.' },
   { title: 'No minimums', body: 'No follower thresholds, no exclusivity. Apply whether you have 500 followers or 500k.' },
 ]
 
@@ -38,8 +39,8 @@ export default function QuadCreatorsPage() {
             Become a <span style={{ color: CORAL }}>Quad Creator.</span>
           </h1>
           <p style={{ fontSize: 18, lineHeight: 1.65, color: MUTED, margin: '0 auto 32px', maxWidth: 500 }}>
-            Partner with us on a performance-based revenue share. Every subscriber your audience brings in
-            earns you recurring monthly income — while they find their people and their focus.
+            Quad turns any college syllabus into a full semester calendar in seconds. Make content about it,
+            get your own promo code, and get paid for the students you bring in.
           </p>
           <a href="#apply" style={{
             display: 'inline-block', fontSize: 15, fontWeight: 700, color: '#fff',
@@ -76,7 +77,8 @@ export default function QuadCreatorsPage() {
           </div>
           <CreatorApplyForm />
           <p style={{ fontSize: 12, color: GHOST, marginTop: 18, textAlign: 'center' }}>
-            No follower minimums. No exclusivity requirements.
+            No follower minimums. No exclusivity requirements. Applying doesn&apos;t commit you to anything —
+            we&apos;ll talk through the terms together before you make a thing.
           </p>
         </div>
       </section>
