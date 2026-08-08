@@ -4,7 +4,7 @@ import { CreatorApplyForm } from '@/components/creator-apply-form'
 export const metadata: Metadata = {
   title: 'Become a Creator | Quad',
   description:
-    'Apply to the Quad creator program. Get your own promo code, a coach, and paid for the students you bring in.',
+    'Apply to the Quad creator program. Get your own promo code, a coach, and paid for your work.',
 }
 
 const CORAL = '#E5502E'
@@ -16,7 +16,7 @@ const TINT = '#FDECE7'
 const BORDER = '#EAE4DA'
 
 const PERKS = [
-  { title: 'Two ways to get paid', body: 'Some creators are paid per piece of content, others earn on every subscriber their code brings in. We agree your terms with you before you make anything.' },
+  { title: 'Paid partnership', body: 'This isn’t an ambassador program with free swag. We pay our creators, and we’ll walk you through the specifics when we talk.' },
   { title: 'Your own promo code', body: 'A vanity code that unlocks a free Plus trial for your audience and tracks every signup back to you.' },
   { title: 'A coach, not a brief', body: 'You keep creative control. Someone on our team reviews your videos before they go live and helps make them land.' },
   { title: 'No minimums', body: 'No follower thresholds, no exclusivity. Apply whether you have 500 followers or 500k.' },
@@ -40,7 +40,7 @@ export default function QuadCreatorsPage() {
           </h1>
           <p style={{ fontSize: 18, lineHeight: 1.65, color: MUTED, margin: '0 auto 32px', maxWidth: 500 }}>
             Quad turns any college syllabus into a full semester calendar in seconds. Make content about it,
-            get your own promo code, and get paid for the students you bring in.
+            get your own promo code, and get paid for your work.
           </p>
           <a href="#apply" style={{
             display: 'inline-block', fontSize: 15, fontWeight: 700, color: '#fff',
