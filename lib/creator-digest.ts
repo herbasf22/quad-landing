@@ -1,4 +1,4 @@
-import type { CreatorRow } from './db'
+import type { CreatorRow, CreatorApplication } from './db'
 
 /// Internal QA rows that must never appear in reports or totals.
 const EXCLUDED_CODES = ['TESTQUAD']
@@ -17,7 +17,34 @@ export type Digest = {
  * Kept pure (no fetch, no env) so it can be rendered and eyeballed without
  * posting anything.
  */
-export function buildDigest(all: CreatorRow[], today = new Date()): Digest {
+/** Best handle to address someone by, preferring the platform they named. */
+function handleOf(a: CreatorApplication): string {
+  const byPlatform: Record<string, string | null> = {
+    tiktok: a.tiktok,
+    instagram: a.instagram,
+    youtube: a.youtube,
+    x: a.twitter,
+    twitter: a.twitter,
+  }
+  const named = byPlatform[(a.primary_platform ?? '').toLowerCase().split(/[\s/]/)[0]]
+  const handle = named || a.tiktok || a.instagram || a.youtube || a.twitter
+  return handle ? handle.replace(/^@?/, '@') : a.full_name
+}
+
+const ageHours = (iso: string, now: Date) =>
+  (now.getTime() - new Date(iso).getTime()) / 36e5
+
+function ageLabel(hours: number): string {
+  if (hours < 1) return 'just now'
+  if (hours < 24) return `${Math.floor(hours)}h ago`
+  return `${Math.floor(hours / 24)}d ago`
+}
+
+export function buildDigest(
+  all: CreatorRow[],
+  today = new Date(),
+  applications: CreatorApplication[] = [],
+): Digest {
   const rows = all.filter((r) => !EXCLUDED_CODES.includes(r.code?.toUpperCase()))
 
   const t = rows.reduce(
@@ -74,6 +101,28 @@ export function buildDigest(all: CreatorRow[], today = new Date()): Digest {
     fields.push({
       name: 'Payouts',
       value: `**${money(t.owed)}** owed across ${rows.filter((r) => (r.balance_owed ?? 0) > 0).length} creators · ${money(t.paid)} paid to date`,
+      inline: false,
+    })
+  }
+
+  // Applications waiting. /creators promises a reply within 48 hours and
+  // nothing else surfaces these — they just sit in the table.
+  if (applications.length) {
+    const overdue = applications.filter((a) => ageHours(a.created_at, today) > 48)
+    const lines = applications.slice(0, 8).map((a) => {
+      const hrs = ageHours(a.created_at, today)
+      const size = a.audience_size ? ` · ${a.audience_size}` : ''
+      const flag = hrs > 48 ? ' ⚠️' : ''
+      return `${handleOf(a)} — ${a.primary_platform ?? '?'}${size} · ${ageLabel(hrs)}${flag}`
+    })
+    if (applications.length > 8) {
+      lines.push(`…and ${applications.length - 8} more`)
+    }
+    fields.push({
+      name: overdue.length
+        ? `📥 ${applications.length} waiting — ${overdue.length} past 48h`
+        : `📥 ${applications.length} waiting to review`,
+      value: lines.join('\n'),
       inline: false,
     })
   }

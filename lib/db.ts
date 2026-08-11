@@ -58,6 +58,34 @@ export type CreatorRow = {
   balance_owed: number
 }
 
+export type CreatorApplication = {
+  id: string
+  created_at: string
+  full_name: string
+  email: string
+  primary_platform: string | null
+  instagram: string | null
+  tiktok: string | null
+  youtube: string | null
+  twitter: string | null
+  audience_size: string | null
+  niche: string | null
+}
+
+/// Applications still awaiting review, oldest first — the /creators page
+/// promises a reply within 48 hours, so the oldest is the one that matters.
+export async function getPendingApplications(): Promise<CreatorApplication[]> {
+  if (!SUPABASE_URL || !SERVICE_KEY) return []
+  const res = await fetch(
+    `${SUPABASE_URL}/rest/v1/creator_applications` +
+      `?select=id,created_at,full_name,email,primary_platform,instagram,tiktok,youtube,twitter,audience_size,niche` +
+      `&status=eq.pending&order=created_at.asc&limit=50`,
+    { headers: authHeaders(), cache: 'no-store' }
+  )
+  if (!res.ok) throw new Error(`creator_applications fetch failed: ${res.status}`)
+  return res.json()
+}
+
 /// Reads the admin-only creator_dashboard view (service role required).
 export async function getCreatorDashboard(): Promise<CreatorRow[]> {
   if (!SUPABASE_URL || !SERVICE_KEY) return []
