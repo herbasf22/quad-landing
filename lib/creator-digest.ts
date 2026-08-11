@@ -1,4 +1,5 @@
 import type { CreatorRow, CreatorApplication } from './db'
+import type { Overview } from './revenuecat'
 
 /// Internal QA rows that must never appear in reports or totals.
 const EXCLUDED_CODES = ['TESTQUAD']
@@ -44,6 +45,7 @@ export function buildDigest(
   all: CreatorRow[],
   today = new Date(),
   applications: CreatorApplication[] = [],
+  rc: Overview | null = null,
 ): Digest {
   const rows = all.filter((r) => !EXCLUDED_CODES.includes(r.code?.toUpperCase()))
 
@@ -65,7 +67,41 @@ export function buildDigest(
     timeZone: 'America/New_York',
   })
 
-  const fields: Array<Record<string, unknown>> = [
+  const fields: Array<Record<string, unknown>> = []
+
+  // The business numbers go first: whether anyone is paying matters more than
+  // whether creators are posting, and it decides whether paying for
+  // acquisition makes sense at all.
+  if (rc) {
+    fields.push({
+      name: '💰 Revenue',
+      value: [
+        `**${money(rc.mrr)}** MRR · **${money(rc.revenue28d)}** last 28d`,
+        `**${rc.activeSubscriptions}** active subs · ${rc.activeTrials} trials`,
+      ].join('\n'),
+      inline: false,
+    })
+
+    const conversion =
+      rc.newCustomers28d > 0
+        ? ((100 * rc.activeSubscriptions) / rc.newCustomers28d).toFixed(1)
+        : '0.0'
+    // Zero paying customers off real traffic is the single most important
+    // thing that could be true, and it's invisible on every other dashboard.
+    const alarm =
+      rc.newCustomers28d >= 20 && rc.activeSubscriptions === 0
+        ? `\n⚠️ ${rc.newCustomers28d} new customers, none subscribed`
+        : ''
+    fields.push({
+      name: '📈 App growth (28d)',
+      value:
+        `**${rc.newCustomers28d}** new · **${rc.activeUsers28d}** active · ` +
+        `${conversion}% paying${alarm}`,
+      inline: false,
+    })
+  }
+
+  fields.push(
     {
       name: 'Totals',
       value: [
@@ -74,7 +110,7 @@ export function buildDigest(
       ].join('\n'),
       inline: false,
     },
-  ]
+  )
 
   // Leaderboard — by conversions, then signups. Creators with nothing yet are
   // listed separately below, so keep them out of the table.

@@ -1,4 +1,5 @@
 import { getCreatorDashboard, getPendingApplications } from '@/lib/db'
+import { getRevenueCatOverview } from '@/lib/revenuecat'
 import { buildDigest } from '@/lib/creator-digest'
 
 export const dynamic = 'force-dynamic'
@@ -31,18 +32,20 @@ export async function GET(req: Request) {
 
   let rows
   let applications
+  let rc
   try {
     // Applications are the softer failure: a digest with numbers but no
     // application list still beats no digest at all.
-    ;[rows, applications] = await Promise.all([
+    ;[rows, applications, rc] = await Promise.all([
       getCreatorDashboard(),
       getPendingApplications().catch(() => []),
+      getRevenueCatOverview(),
     ])
   } catch (err) {
     return Response.json({ error: `supabase: ${(err as Error).message}` }, { status: 502 })
   }
 
-  const digest = buildDigest(rows, new Date(), applications)
+  const digest = buildDigest(rows, new Date(), applications, rc)
 
   // ?dry=1 renders the payload without posting — for checking formatting.
   if (url.searchParams.get('dry')) {
